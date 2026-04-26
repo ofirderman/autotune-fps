@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "autotune_fps",
+  "version": "${version}",
+  "name": "AutoTune FPS",
+  "description": "Preset-based Minecraft optimization for players who want good defaults without digging through every video setting.",
+  "authors": [
+    "Codex + User"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/autotune_fps/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.secondmod.autotunefps.client.AutoTuneFpsClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.2",
+    "minecraft": ">=26.1 <=26.1.2",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}
