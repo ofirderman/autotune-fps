@@ -14,6 +14,12 @@
 - Kept protected-settings behavior in place, including the original pre-AutoTune restore baseline, clear ownership handoff, and protection for personal settings
 - Smart Recommendation never automatically chooses `Ultimate Performance`
 
+## 0.1.4
+
+- Added the dual release layout for Fabric `1.21` through `1.21.11` and `26.1` through `26.1.2`
+- Published separate release jars for the `1.21-1.21.11` and `26.1-26.1.2` port lines
+- Kept the same player-facing preset behavior while separating the version-specific build workspaces
+
 ## 0.1.3
 
 - Added direct `Auto-apply` control to the preset menu
