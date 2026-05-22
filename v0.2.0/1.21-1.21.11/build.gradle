@@ -1,0 +1,128 @@
+import groovy.json.JsonSlurper
+
+plugins {
+    id "fabric-loom" version "${loom_version}"
+    id "maven-publish"
+}
+
+version = project.mod_version
+group = project.maven_group
+def finalJarFileName = "AutoTune FPS v${project.version}-1.21-1.21.11.jar"
+def rootReleaseLibsDir = file("../../../../build/libs")
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    mavenCentral()
+}
+
+loom {
+    splitEnvironmentSourceSets()
+
+    mods {
+        "universal_optimizer" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.archives_base_name}" }
+    }
+}
+
+tasks.named("remapJar") {
+    archiveFileName = finalJarFileName
+}
+
+tasks.register("syncReleaseJarToRootLibs", Copy) {
+    dependsOn tasks.named("remapJar")
+    from(tasks.named("remapJar").flatMap { it.archiveFile })
+    into(rootReleaseLibsDir)
+}
+
+tasks.register("verifyReleaseJarMetadata") {
+    dependsOn tasks.named("remapJar")
+
+    doLast {
+        File jarFile = tasks.named("remapJar").get().archiveFile.get().asFile
+        if (!jarFile.exists()) {
+            throw new GradleException("Release jar was not created: ${jarFile}")
+        }
+
+        def zip = new java.util.zip.ZipFile(jarFile)
+        try {
+            def fabricModEntry = zip.getEntry("fabric.mod.json")
+            if (fabricModEntry == null) {
+                throw new GradleException("Release jar is missing fabric.mod.json")
+            }
+
+            def fabricMod = new JsonSlurper().parse(zip.getInputStream(fabricModEntry))
+            if (!(fabricMod.name instanceof String) || fabricMod.name.isBlank()) {
+                throw new GradleException("Release jar fabric.mod.json is missing a non-empty mod name")
+            }
+            if (!(fabricMod.version instanceof String) || fabricMod.version.isBlank()) {
+                throw new GradleException("Release jar fabric.mod.json is missing a non-empty mod version")
+            }
+            if (!(fabricMod.icon instanceof String) || fabricMod.icon.isBlank()) {
+                throw new GradleException("Release jar fabric.mod.json is missing a non-empty icon path")
+            }
+            if (zip.getEntry(fabricMod.icon) == null) {
+                throw new GradleException("Release jar is missing the icon file referenced by fabric.mod.json: ${fabricMod.icon}")
+            }
+        } finally {
+            zip.close()
+        }
+    }
+}
+
+tasks.named("build") {
+    dependsOn tasks.named("verifyReleaseJarMetadata")
+    dependsOn tasks.named("syncReleaseJarToRootLibs")
+
+    doLast {
+        delete fileTree("$buildDir/libs") {
+            include "*-sources.jar"
+        }
+    }
+}
+
+publishing {
+    publications {
+        create("mavenJava", MavenPublication) {
+            artifactId = project.archives_base_name
+            from components.java
+        }
+    }
+}
