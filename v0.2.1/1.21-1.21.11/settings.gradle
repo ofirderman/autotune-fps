@@ -1,0 +1,17 @@
+pluginManagement {
+    repositories {
+        maven {
+            name = "Fabric"
+            url = "https://maven.fabricmc.net/"
+        }
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
+if (System.getProperty("os.name", "").toLowerCase().contains("windows")
+        && System.getProperty("javax.net.ssl.trustStoreType") == null) {
+    System.setProperty("javax.net.ssl.trustStoreType", "Windows-ROOT")
+}
+
+rootProject.name = "AutoTune FPS"
