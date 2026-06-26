@@ -18,7 +18,8 @@
 
 ## 0.2.1
 
-- Supported Minecraft versions: `1.21` through `1.21.11` and `26.1` through `26.1.2`
+- Supported Minecraft versions: `1.21` through `1.21.11` and `26.1` through `26.2`
+- Added Minecraft 26.2 compatibility through the sibling 26.x jar after a successful 26.2 botcheck pass
 - Made `/optimizer status` easier to scan
 - Cleaned up preset menu wording and removed confusing recommendation labels
 - Renamed the recommendation actions so it is clear they apply or preview the recommended preset

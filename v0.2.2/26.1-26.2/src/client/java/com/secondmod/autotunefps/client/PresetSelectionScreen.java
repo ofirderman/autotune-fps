@@ -183,7 +183,7 @@ public final class PresetSelectionScreen extends Screen {
     @Override
     public void onClose() {
         if (this.minecraft != null) {
-            this.minecraft.setScreen(this.lastScreen);
+            MinecraftScreenCompat.setScreen(this.minecraft, this.lastScreen);
         }
     }
 
@@ -340,7 +340,7 @@ public final class PresetSelectionScreen extends Screen {
                     Component.literal("Re-scanned. Recommended preset: " + recommendation.basePreset().displayName() + ".")
                 );
             }
-            this.minecraft.setScreen(new PresetSelectionScreen(this.lastScreen, this.coordinator));
+            MinecraftScreenCompat.setScreen(this.minecraft, new PresetSelectionScreen(this.lastScreen, this.coordinator));
         }
     }
 
@@ -352,7 +352,7 @@ public final class PresetSelectionScreen extends Screen {
         if (this.minecraft.player != null) {
             this.minecraft.player.sendSystemMessage(Component.literal(message));
         }
-        this.minecraft.setScreen(new PresetSelectionScreen(this.lastScreen, this.coordinator));
+        MinecraftScreenCompat.setScreen(this.minecraft, new PresetSelectionScreen(this.lastScreen, this.coordinator));
     }
 
     private void updateOptimizationEngineMode() {
@@ -363,7 +363,7 @@ public final class PresetSelectionScreen extends Screen {
         if (this.minecraft.player != null) {
             this.minecraft.player.sendSystemMessage(Component.literal(message));
         }
-        this.minecraft.setScreen(new PresetSelectionScreen(this.lastScreen, this.coordinator));
+        MinecraftScreenCompat.setScreen(this.minecraft, new PresetSelectionScreen(this.lastScreen, this.coordinator));
     }
 
     private void toggleParticleReduction() {
@@ -374,7 +374,7 @@ public final class PresetSelectionScreen extends Screen {
         if (this.minecraft.player != null) {
             this.minecraft.player.sendSystemMessage(Component.literal(message));
         }
-        this.minecraft.setScreen(new PresetSelectionScreen(this.lastScreen, this.coordinator));
+        MinecraftScreenCompat.setScreen(this.minecraft, new PresetSelectionScreen(this.lastScreen, this.coordinator));
     }
 
     private void runMenuAction(String failureMessage, Supplier<String> action) {

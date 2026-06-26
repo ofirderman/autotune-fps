@@ -87,7 +87,7 @@ public final class AutoTuneClientCoordinator {
         pendingMenuDelayTicks = -1;
 
         try {
-            client.setScreen(new PresetSelectionScreen(client.screen, this));
+            MinecraftScreenCompat.setScreen(client, new PresetSelectionScreen(MinecraftScreenCompat.currentScreen(client), this));
             if (client.player != null) {
                 client.player.sendSystemMessage(Component.literal("Optimizer menu opened."));
             }

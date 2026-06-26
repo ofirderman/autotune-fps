@@ -5,7 +5,7 @@
 ## Current Status
 
 - current release line: `0.2.2`
-- Supported Minecraft versions: `1.21` through `1.21.11` and `26.1` through `26.1.2`
+- Supported Minecraft versions: `1.21` through `1.21.11` and `26.1` through `26.2`
 - client-side Fabric mod
 - preset-based optimization plus an optional client-side Optimization Engine
 

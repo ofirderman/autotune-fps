@@ -7,7 +7,7 @@ plugins {
 
 version = project.mod_version
 group = project.maven_group
-def finalJarFileName = "AutoTune FPS v${project.version}-26.1-26.1.2.jar"
+def finalJarFileName = "AutoTune FPS v${project.version}-26.1-26.2.jar"
 def rootReleaseLibsDir = file("../../../../build/libs")
 def releaseJarTaskProvider = tasks.named(tasks.findByName("remapJar") ? "remapJar" : "jar")
 
