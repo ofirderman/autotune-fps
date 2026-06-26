@@ -1,0 +1,15 @@
+.gradle/
+build/*
+!build/libs/
+!build/libs/*.jar
+run/
+out/
+*.class
+*.log
+.idea/
+.gradle-home/
+.gradle-tmp/
+.gradle-user-home/
+.gradle-user-home-*/
+.gradle-user-home-8_6/
+.codex/

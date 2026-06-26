@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "autotune_fps",
+  "version": "${version}",
+  "name": "AutoTune FPS",
+  "description": "Preset-based Minecraft optimization with an optional client-side Optimization Engine.",
+  "authors": [
+    "AutoTune FPS Team"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/autotune_fps/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.secondmod.autotunefps.client.AutoTuneFpsClient"
+    ]
+  },
+  "mixins": [
+    "autotune_fps.client.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.2",
+    "minecraft": ">=26.1 <=26.1.2",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}
